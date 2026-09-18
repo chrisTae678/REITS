@@ -1,0 +1,485 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>상장리츠 대시보드</title>
+<style>
+  :root{
+    --bg:#f4f5fc;
+    --blob1:139,124,246; --blob2:90,168,238; --blob3:244,148,182;
+    --glass:rgba(255,255,255,.60); --glass-strong:rgba(255,255,255,.80); --glass-border:rgba(255,255,255,.75);
+    --ink:#1c2033; --ink-2:#565c78; --muted:#888fac; --line:rgba(90,90,150,.16);
+    --up:#e14d72; --up-bg:rgba(225,77,114,.12); --down:#3f7fe0; --down-bg:rgba(63,127,224,.12);
+    --brand1:#8b7cf6; --brand2:#4fa7ef;
+    --shadow: 0 10px 40px rgba(110,100,210,.16), 0 2px 10px rgba(110,100,210,.08);
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --bg:#0e0f1c;
+      --glass:rgba(32,34,58,.55); --glass-strong:rgba(40,42,70,.74); --glass-border:rgba(255,255,255,.10);
+      --ink:#eef0fb; --ink-2:#b7bcda; --muted:#868cb0; --line:rgba(255,255,255,.10);
+      --up:#ff8aa8; --up-bg:rgba(255,138,168,.16); --down:#7fb2ff; --down-bg:rgba(127,178,255,.16);
+      --brand1:#a99bff; --brand2:#7ec4ff;
+      --shadow: 0 10px 40px rgba(0,0,0,.5), 0 2px 10px rgba(0,0,0,.32);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e0f1c;
+    --glass:rgba(32,34,58,.55); --glass-strong:rgba(40,42,70,.74); --glass-border:rgba(255,255,255,.10);
+    --ink:#eef0fb; --ink-2:#b7bcda; --muted:#868cb0; --line:rgba(255,255,255,.10);
+    --up:#ff8aa8; --up-bg:rgba(255,138,168,.16); --down:#7fb2ff; --down-bg:rgba(127,178,255,.16);
+    --brand1:#a99bff; --brand2:#7ec4ff;
+    --shadow: 0 10px 40px rgba(0,0,0,.5), 0 2px 10px rgba(0,0,0,.32);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;min-height:100%;}
+  body{
+    background:
+      radial-gradient(1000px 640px at 6% -12%, rgba(var(--blob1),.36), transparent 60%),
+      radial-gradient(900px 620px at 102% -8%, rgba(var(--blob2),.32), transparent 55%),
+      radial-gradient(760px 520px at 22% 108%, rgba(var(--blob3),.20), transparent 55%),
+      var(--bg);
+    background-attachment: fixed;
+    color:var(--ink);
+    font-family:"Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-feature-settings:"tnum" 1; line-height:1.55;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:44px 24px 100px;}
+  header.top{display:flex;flex-direction:column;gap:6px;padding-bottom:22px;margin-bottom:6px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--brand1);width:fit-content;}
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--brand1),var(--brand2));display:inline-block;box-shadow:0 0 0 3px rgba(var(--blob1),.15);}
+  h1{font-size:29px;line-height:1.28;margin:4px 0 4px;font-weight:800;text-wrap:balance;letter-spacing:-.01em;color:var(--ink);}
+  .subline{color:var(--ink-2);font-size:14px;}
+
+  .tabbar{
+    display:flex;gap:3px;margin-bottom:30px;position:sticky;top:14px;z-index:5;width:fit-content;
+    background:var(--glass-strong);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+    border:1px solid var(--glass-border);border-radius:14px;padding:6px;box-shadow:var(--shadow);
+  }
+  .tabbtn{
+    font:inherit;font-size:14px;font-weight:700;padding:9px 20px;border:none;background:none;color:var(--muted);
+    cursor:pointer;border-radius:10px;transition:color .15s ease, background .15s ease;
+  }
+  .tabbtn.active{color:#fff;background:linear-gradient(135deg,var(--brand1),var(--brand2));box-shadow:0 6px 16px rgba(var(--blob1),.35);}
+  .tabpanel{display:none;}
+  .tabpanel.active{display:block;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px;}
+  .stat{position:relative;overflow:hidden;background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid var(--glass-border);border-radius:16px;padding:18px 18px 16px;box-shadow:var(--shadow);}
+  .stat::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--brand1),var(--brand2));opacity:.85;}
+  .stat .label{font-size:11.5px;color:var(--muted);letter-spacing:.02em;margin-bottom:9px;}
+  .stat .value{font-size:22px;font-weight:800;letter-spacing:-.01em;}
+  .stat .sub{font-size:12.5px;color:var(--ink-2);margin-top:5px;}
+  .stat .value.up{color:var(--up);} .stat .value.down{color:var(--down);}
+
+  section{margin-bottom:42px;}
+  h2{font-size:17.5px;font-weight:800;margin:0 0 5px;letter-spacing:-.005em;color:var(--ink);}
+  .section-note{color:var(--ink-2);font-size:13.5px;margin:0 0 16px;max-width:66ch;}
+
+  .table-scroll{overflow-x:auto;border:1px solid var(--glass-border);border-radius:18px;background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);box-shadow:var(--shadow);}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px;}
+  thead th{
+    text-align:right;font-weight:700;color:var(--ink-2);font-size:11.5px;letter-spacing:.02em;
+    padding:13px 14px;border-bottom:1px solid var(--line);white-space:nowrap;background:rgba(var(--blob1),.07);
+  }
+  thead th:first-child, thead th:nth-child(2){text-align:left;}
+  tbody td{padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:right;color:var(--ink);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td:first-child{text-align:center;color:var(--muted);font-weight:700;}
+  tbody td.name{text-align:left;}
+  tbody td.name .nm{font-weight:700;color:var(--ink);} tbody td.name .cd{display:block;font-size:11px;color:var(--muted);margin-top:1px;}
+  .pct{font-weight:700;padding:3px 8px;border-radius:8px;font-size:12.5px;display:inline-block;}
+  .pct.up{color:var(--up);background:var(--up-bg);} .pct.down{color:var(--down);background:var(--down-bg);} .pct.flat{color:var(--muted);background:rgba(var(--blob1),.08);}
+  .spark-cell{text-align:left;}
+  tbody tr:hover{background:rgba(var(--blob2),.08);}
+  tbody tr.clickable{cursor:pointer;}
+  tbody tr.clickable td.name .nm::after{content:" 🔍";font-size:11px;opacity:.55;}
+  tr.insight-row td{background:rgba(var(--blob1),.07);padding:17px 18px;white-space:normal;text-align:left;}
+  tr.insight-row .insight-box{max-width:70ch;}
+  tr.insight-row .insight-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px;}
+  tr.insight-row .itag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px;background:var(--glass-strong);border:1px solid var(--glass-border);color:var(--ink-2);}
+  tr.insight-row .insight-text{font-size:13.5px;color:var(--ink);line-height:1.65;margin:0 0 8px;}
+  tr.insight-row .insight-disclaimer{font-size:11.5px;color:var(--muted);margin:0;}
+
+  .grid-charts{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  .chart-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;padding:12px 12px 10px;box-shadow:var(--shadow);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);transition:transform .15s ease, box-shadow .15s ease;}
+  .chart-card:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(var(--blob1),.20);}
+  .chart-card .cc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;}
+  .chart-card .cc-name{font-size:12px;font-weight:700;color:var(--ink);}
+  .chart-card .cc-ret{font-size:11.5px;font-weight:700;}
+  .chart-card svg{display:block;width:100%;height:auto;overflow:visible;}
+  .axis-lbl{font-size:8.5px;fill:var(--muted);}
+
+  .takeaways{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .tg{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);}
+  .tg h3{margin:0 0 9px;font-size:13.5px;letter-spacing:.01em;}
+  .tg h3.up{color:var(--up);} .tg h3.down{color:var(--down);}
+  .tg ul{margin:0;padding-left:18px;} .tg li{font-size:13px;margin-bottom:8px;color:var(--ink-2);} .tg li b{color:var(--ink);font-weight:700;}
+
+  .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;padding:13px 16px;box-shadow:var(--shadow);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);}
+  .toolbar label{font-size:12.5px;color:var(--muted);margin-right:6px;}
+  select{font:inherit;font-size:13.5px;padding:7px 11px;border-radius:8px;border:1px solid var(--glass-border);background:var(--glass-strong);color:var(--ink);}
+  .btn{font:inherit;font-size:13px;font-weight:700;padding:9px 16px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--brand1),var(--brand2));color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(var(--blob1),.32);}
+  .btn.secondary{background:var(--glass-strong);color:var(--ink);border:1px solid var(--glass-border);box-shadow:none;}
+  .spacer{flex:1;}
+
+  footer{border-top:1px solid var(--line);padding-top:16px;margin-top:8px;font-size:12px;color:var(--muted);}
+  footer p{margin:0 0 6px;}
+
+  @media (max-width:760px){
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .grid-charts{grid-template-columns:repeat(2,1fr);}
+    .takeaways{grid-template-columns:1fr;}
+    .tabbar{width:100%;}
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Korea Listed REITs Dashboard</div>
+    <h1>국내 상장리츠 대시보드</h1>
+    <div class="subline" id="subline">기준일 2026-09-17 · KIS 시세 데이터</div>
+  </header>
+
+  <nav class="tabbar">
+    <button class="tabbtn active" data-tab="report">톱10 리포트</button>
+    <button class="tabbtn" data-tab="log">주가 기록</button>
+  </nav>
+
+  <!-- ============ TAB 1: RANKING REPORT ============ -->
+  <div class="tabpanel active" id="tab-report">
+    <section id="summary"><div class="stat-grid" id="statGrid"></div></section>
+
+    <section id="ranking">
+      <h2>시가총액 순위 (Top 10)</h2>
+      <p class="section-note">국내 증시에 상장된 리츠(REITs) 중 시가총액 상위 10개. 등락률은 당일 기준, 수익률은 2026-06-04 종가 대비 2026-09-17 종가 기준.</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>순위</th><th>종목명</th><th>현재가</th><th>당일등락</th><th>시가총액(억원)</th><th>3.5개월 수익률</th><th>추이</th></tr></thead>
+          <tbody id="tblBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="trend">
+      <h2>종목별 주가 추이 (2026-06-04=100 지수화)</h2>
+      <p class="section-note">10개 종목 모두 동일한 축으로 비교. 점선은 기준일(100) 위치이며, 선 끝의 점은 최근 종가 위치를 나타낸다.</p>
+      <div class="grid-charts" id="chartGrid"></div>
+    </section>
+
+    <section id="notes">
+      <h2>주가 동향 요약</h2>
+      <div class="takeaways">
+        <div class="tg">
+          <h3 class="up">상승 흐름</h3>
+          <ul>
+            <li><b>한화리츠(+22.9%)</b>: 6월 초 저점(4,030원) 이후 꾸준히 우상향, 8월 중순 5,670원까지 상승한 뒤 박스권 유지.</li>
+            <li><b>KB스타리츠(+19.7%)</b>: 6월 저점(1,267원) 이후 완만히 우상향하다 최근 2주 기관 순매수와 함께 급등, 오늘 1,705원으로 신고가.</li>
+            <li><b>롯데리츠(+13.4%)</b>: 6~7월 조정 후 8월부터 상승 전환, 9월 들어 3,900원대 안착.</li>
+            <li><b>신한서부티엔디리츠(+14.6%)</b>: 6월 배당락 급등락 이후 변동성 크게 유지하며 완만한 우상향.</li>
+          </ul>
+        </div>
+        <div class="tg">
+          <h3 class="down">조정 흐름</h3>
+          <ul>
+            <li><b>ESR켄달스퀘어리츠(-15.5%)</b>: 톱10 중 유일한 두 자릿수 하락. 6월 고점(3,990원) 이후 8월 저점(2,985원)까지 완만한 하락세 지속.</li>
+            <li><b>SK리츠(+3.4%)</b>: 6월 급등(4,800→6,020원) 후 8월 고점(5,880원대) 대비 최근 -12% 조정, 변동폭만 크고 기간 수익률은 완만.</li>
+            <li><b>코람코라이프인프라리츠(+4.5%)·삼성FN리츠(+10.1%)</b>: 등락은 있었지만 대체로 박스권, 방향성은 완만한 상승.</li>
+            <li><b>이지스밸류플러스리츠(+7.7%)</b>: 9월 초 4,050원 고점 형성 후 차익실현 매물로 3,600원대로 되돌림.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ TAB 2: PRICE LOG ============ -->
+  <div class="tabpanel" id="tab-log">
+    <section>
+      <div class="stat-grid" id="logStatGrid"></div>
+    </section>
+    <section>
+      <h2>상장리츠 전 종목 일별 시세</h2>
+      <p class="section-note">전 상장리츠(약 22개 종목)의 종가를 매 영업일 자동으로 누적 기록합니다. 날짜를 선택해 해당일 스냅샷을 보거나, CSV(엑셀)로 내보낼 수 있습니다. 🔍 표시가 있는 톱10 종목은 클릭하면 기술적 분석 인사이트를 볼 수 있습니다.</p>
+      <div class="toolbar">
+        <label for="dateSelect">조회일</label>
+        <select id="dateSelect"></select>
+        <div class="spacer"></div>
+        <button class="btn secondary" id="downloadDayBtn">이 날짜만 CSV 다운로드</button>
+        <button class="btn" id="downloadAllBtn">전체 기록 CSV(엑셀)로 다운로드</button>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>코드</th><th>종목명</th><th>종가</th><th>등락률</th><th>시가총액(억원)</th></tr></thead>
+          <tbody id="logTblBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p id="footnote"></p>
+    <p>데이터 출처: PlayMCP 한국주식정보 커넥터(KIS 연동) · 매 영업일 16:30 KST경 자동 갱신 · 단순 참고용이며 투자 판단의 근거로 사용할 수 없습니다.</p>
+  </footer>
+</div>
+
+<!-- History for the price-log tab: one entry per trading day, appended daily by the automation. -->
+<script type="application/json" id="price-history-data">
+[
+  {
+    "date": "2026-09-17",
+    "stocks": [
+      {"code":"395400","name":"SK리츠","price":5160,"change_rate":-0.96,"market_cap":15533},
+      {"code":"330590","name":"롯데리츠","price":3965,"change_rate":0.25,"market_cap":11443},
+      {"code":"451800","name":"한화리츠","price":5290,"change_rate":0.57,"market_cap":9501},
+      {"code":"365550","name":"ESR켄달스퀘어리츠","price":3085,"change_rate":-1.12,"market_cap":7592},
+      {"code":"293940","name":"신한알파리츠","price":5460,"change_rate":0.74,"market_cap":6603},
+      {"code":"448730","name":"삼성FN리츠","price":5350,"change_rate":0.38,"market_cap":4871},
+      {"code":"357120","name":"코람코라이프인프라리츠","price":4087,"change_rate":-0.80,"market_cap":3976},
+      {"code":"417310","name":"코람코더원리츠","price":2372,"change_rate":-0.13,"market_cap":958},
+      {"code":"334890","name":"이지스밸류플러스리츠","price":3630,"change_rate":-0.27,"market_cap":2514},
+      {"code":"404990","name":"신한서부티엔디리츠","price":3795,"change_rate":1.34,"market_cap":2339},
+      {"code":"348950","name":"제이알글로벌리츠","price":1182,"change_rate":0,"market_cap":2333},
+      {"code":"088260","name":"이리츠코크렙","price":3270,"change_rate":1.24,"market_cap":2071},
+      {"code":"432320","name":"KB스타리츠","price":1705,"change_rate":3.27,"market_cap":2570},
+      {"code":"377190","name":"디앤디플랫폼리츠","price":2295,"change_rate":1.32,"market_cap":2029},
+      {"code":"400760","name":"NH올원리츠","price":2845,"change_rate":0.53,"market_cap":1563},
+      {"code":"350520","name":"이지스레지던스리츠","price":3330,"change_rate":0.15,"market_cap":1228},
+      {"code":"338100","name":"NH프라임리츠","price":3770,"change_rate":-0.79,"market_cap":703},
+      {"code":"396690","name":"미래에셋글로벌리츠","price":1407,"change_rate":0.64,"market_cap":557},
+      {"code":"357250","name":"미래에셋맵스리츠","price":1810,"change_rate":0.56,"market_cap":452},
+      {"code":"481850","name":"신한글로벌액티브리츠","price":973,"change_rate":0.31,"market_cap":423},
+      {"code":"145270","name":"케이탑리츠","price":788,"change_rate":-0.51,"market_cap":379},
+      {"code":"357430","name":"마스턴프리미어리츠","price":922,"change_rate":-0.32,"market_cap":281}
+    ]
+  }
+]
+</script>
+
+<!-- Short-term technical insight per top-10 ticker, refreshed daily alongside the report. Descriptive only — not investment advice. -->
+<script type="application/json" id="stock-insights-data">
+{
+  "asOf": "2026-09-17",
+  "marketContext": "같은 기간(06/04~09/17) 코스피 지수는 약 6,300에서 6,770선으로 상승하며 대체로 우호적인 시장 환경이 유지되었습니다.",
+  "insights": {
+    "395400": {"trend":"하락","support":"5,150~5,200원","resistance":"5,650~5,680원","week52":"4,760~7,200원","flow":"최근 회사채 수요예측에서 모집액의 3배가 몰리는 등 자금조달 여건은 우호적이나, 뚜렷한 수급 쏠림은 관측되지 않았습니다.","summary":"8월 중순 고점(5,680원) 대비 조정을 받으며 최근 한 달간 하락 추세를 보이고 있습니다."},
+    "330590": {"trend":"완만한 상승","support":"3,850원","resistance":"3,980원","week52":"3,260~4,900원","flow":"최근 배당(금전배당) 결정 공시가 있었으나 특별한 수급 쏠림 시그널은 확인되지 않았습니다.","summary":"최근 한 달간 3,850~3,980원의 좁은 박스권에서 완만한 상승 흐름을 보이고 있습니다."},
+    "451800": {"trend":"조정","support":"5,130원","resistance":"5,530원","week52":"3,890~6,980원","flow":"임원·주요주주 지분변동 공시 외 특이 수급 시그널은 없습니다.","summary":"8월 중순 고점(5,530원) 이후 조정 국면에 들어가 최근 박스권에서 등락하고 있습니다."},
+    "365550": {"trend":"저점 반등","support":"2,985원","resistance":"3,195원","week52":"2,925~4,795원","flow":"뚜렷한 수급 이벤트는 관측되지 않았습니다.","summary":"8월 하순 저점(2,985원)을 찍은 이후 완만히 반등하는 흐름이며, 52주 밴드 하단에 가깝게 위치합니다."},
+    "293940": {"trend":"완만한 상승","support":"5,250원","resistance":"5,520원","week52":"5,040~6,270원","flow":"이달 배당기준일 관련 주주명부폐쇄 공시가 있었습니다.","summary":"최근 한 달간 5,250~5,520원 범위에서 완만한 상승 흐름을 보이고 있습니다."},
+    "448730": {"trend":"박스권","support":"5,160원","resistance":"5,530원","week52":"4,305~7,620원","flow":"뚜렷한 수급 시그널은 확인되지 않았습니다.","summary":"최근 한 달간 5,160~5,530원 범위에서 박스권 흐름을 유지하고 있습니다."},
+    "357120": {"trend":"하락","support":"4,070원","resistance":"4,310원","week52":"3,750~4,950원","flow":"최근 보유 부동산 처분(정정) 공시가 있어 포트폴리오 조정 이슈를 주시할 필요가 있습니다.","summary":"8월 중순 고점(4,310원) 이후 하락 추세가 이어지고 있습니다."},
+    "432320": {"trend":"강한 상승","support":"1,410~1,470원","resistance":"1,705원(52주 신고가)","week52":"1,246~4,000원","flow":"기관 순매수가 8거래일 이상 이어지는 등 수급이 뚜렷하게 우호적입니다.","summary":"최근 한 달간 뚜렷한 상승 추세로, 저점(1,410원) 대비 오늘 종가까지 큰 폭으로 올랐습니다."},
+    "334890": {"trend":"조정","support":"3,565원","resistance":"4,050원","week52":"3,055~4,600원","flow":"뚜렷한 수급 시그널은 확인되지 않았습니다.","summary":"9월 초 고점(4,050원)을 찍은 뒤 차익실현 매물로 조정받아 최근 박스권 하단에서 등락하고 있습니다."},
+    "404990": {"trend":"변동성 확대","support":"3,680원","resistance":"3,965원","week52":"3,245~4,920원","flow":"9월 중순 코스피 하락 국면에서 낙폭이 컸던 종목 중 하나로 언급된 바 있어 시장 전반 변동성에 민감한 편입니다.","summary":"최근 한 달간 3,680~3,965원 범위에서 변동성 있는 흐름을 보이고 있습니다."}
+  }
+}
+</script>
+
+<script>
+(function(){
+  const fmtNum = v => v.toLocaleString("ko-KR");
+  const fmtPct = v => (v>=0?"+":"")+v.toFixed(2)+"%";
+
+  /* ---------- tabs ---------- */
+  document.querySelectorAll(".tabbtn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll(".tabbtn").forEach(b=>b.classList.remove("active"));
+      document.querySelectorAll(".tabpanel").forEach(p=>p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  /* ---------- TAB 1: ranking report ---------- */
+  const DATE_LABELS = ["06/04","06/09","06/23","07/07","07/22","08/05","08/20","09/03","09/17"];
+  const stocks = [
+    {name:"SK리츠", code:"395400", price:5160, dayPct:-0.96, cap:15533, series:[4990,4840,5630,5920,5600,5570,5650,5350,5160]},
+    {name:"롯데리츠", code:"330590", price:3965, dayPct:0.25, cap:11443, series:[3495,3455,3520,3675,3490,3620,3945,3860,3965]},
+    {name:"한화리츠", code:"451800", price:5290, dayPct:0.57, cap:9501, series:[4305,4125,4705,4950,4660,5130,5670,5130,5290]},
+    {name:"ESR켄달스퀘어리츠", code:"365550", price:3085, dayPct:-1.12, cap:7592, series:[3650,3500,3445,3450,3210,3210,3000,3120,3085]},
+    {name:"신한알파리츠", code:"293940", price:5460, dayPct:0.74, cap:6603, series:[4860,5230,5080,5240,5200,5220,5260,5390,5460]},
+    {name:"삼성FN리츠", code:"448730", price:5350, dayPct:0.38, cap:4871, series:[4860,4880,5180,5600,5510,5530,5440,5160,5350]},
+    {name:"코람코라이프인프라리츠", code:"357120", price:4087, dayPct:-0.80, cap:3976, series:[3910,3925,4000,4235,4015,4240,4355,4140,4087]},
+    {name:"KB스타리츠", code:"432320", price:1705, dayPct:3.27, cap:2570, series:[1424,1477,1298,1459,1478,1367,1428,1469,1705]},
+    {name:"이지스밸류플러스리츠", code:"334890", price:3630, dayPct:-0.27, cap:2514, series:[3370,3110,3290,3515,3425,3380,3685,3985,3630]},
+    {name:"신한서부티엔디리츠", code:"404990", price:3795, dayPct:1.34, cap:2339, series:[3310,3735,3815,3730,3700,4115,4000,3850,3795]},
+  ];
+  stocks.forEach((s,i)=>{
+    s.rank=i+1;
+    s.retPct = ((s.series[s.series.length-1]/s.series[0])-1)*100;
+  });
+
+  const totalCap = stocks.reduce((a,s)=>a+s.cap,0);
+  const avgRet = stocks.reduce((a,s)=>a+s.retPct,0)/stocks.length;
+  const best = stocks.reduce((a,s)=>s.retPct>a.retPct?s:a);
+  const worst = stocks.reduce((a,s)=>s.retPct<a.retPct?s:a);
+
+  const statGrid = document.getElementById("statGrid");
+  [
+    {label:"TOP 10 합산 시가총액", value:(totalCap/10000).toFixed(2)+"조원", sub:fmtNum(totalCap)+"억원"},
+    {label:"평균 수익률 (06/04→09/17)", value:fmtPct(avgRet), sub:"10종목 단순평균, 기간 약 3.5개월", cls:avgRet>=0?"up":"down"},
+    {label:"최고 수익률", value:fmtPct(best.retPct), sub:best.name+" · 시총 "+fmtNum(best.cap)+"억원", cls:"up"},
+    {label:"최저 수익률", value:fmtPct(worst.retPct), sub:worst.name+" · 시총 "+fmtNum(worst.cap)+"억원", cls:"down"},
+  ].forEach(st=>{
+    const d=document.createElement("div"); d.className="stat";
+    d.innerHTML=`<div class="label">${st.label}</div><div class="value ${st.cls||""}">${st.value}</div><div class="sub">${st.sub}</div>`;
+    statGrid.appendChild(d);
+  });
+
+  function sparkPath(series,w,h,pad){
+    const min=Math.min(...series), max=Math.max(...series), span=(max-min)||1;
+    const step=(w-pad*2)/(series.length-1);
+    return series.map((v,i)=>{const x=pad+i*step; const y=pad+(1-(v-min)/span)*(h-pad*2); return (i===0?"M":"L")+x.toFixed(1)+","+y.toFixed(1);}).join(" ");
+  }
+  function sparkEnd(series,w,h,pad){
+    const min=Math.min(...series), max=Math.max(...series), span=(max-min)||1;
+    const step=(w-pad*2)/(series.length-1), i=series.length-1;
+    return {x:pad+i*step, y:pad+(1-(series[i]-min)/span)*(h-pad*2)};
+  }
+
+  const tblBody = document.getElementById("tblBody");
+  stocks.forEach(s=>{
+    const up = s.retPct>=0, color = up?"var(--up)":"var(--down)";
+    const w=100,h=32,pad=3, path=sparkPath(s.series,w,h,pad), end=sparkEnd(s.series,w,h,pad);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${s.rank}</td>
+      <td class="name"><span class="nm">${s.name}</span><span class="cd">${s.code}</span></td>
+      <td>${fmtNum(s.price)}원</td>
+      <td><span class="pct ${s.dayPct>=0?'up':'down'}">${fmtPct(s.dayPct)}</span></td>
+      <td>${fmtNum(s.cap)}</td>
+      <td><span class="pct ${up?'up':'down'}">${fmtPct(s.retPct)}</span></td>
+      <td class="spark-cell"><svg viewBox="0 0 ${w} ${h}" width="100" height="32">
+        <path d="${path}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="${end.x.toFixed(1)}" cy="${end.y.toFixed(1)}" r="2.2" fill="${color}"/>
+      </svg></td>`;
+    tblBody.appendChild(tr);
+  });
+
+  const chartGrid = document.getElementById("chartGrid");
+  const DOMAIN_MIN=70, DOMAIN_MAX=135, W=150,H=92,PAD_L=8,PAD_R=6,PAD_T=8,PAD_B=16;
+  stocks.forEach(s=>{
+    const base=s.series[0], idx=s.series.map(v=>(v/base)*100);
+    const up=s.retPct>=0, color=up?"var(--up)":"var(--down)", bg=up?"var(--up-bg)":"var(--down-bg)";
+    const x=i=>PAD_L+i*((W-PAD_L-PAD_R)/(idx.length-1));
+    const y=v=>PAD_T+(1-(v-DOMAIN_MIN)/(DOMAIN_MAX-DOMAIN_MIN))*(H-PAD_T-PAD_B);
+    const linePath = idx.map((v,i)=>(i===0?"M":"L")+x(i).toFixed(1)+","+y(v).toFixed(1)).join(" ");
+    const areaPath = linePath+` L${x(idx.length-1).toFixed(1)},${y(DOMAIN_MIN).toFixed(1)} L${x(0).toFixed(1)},${y(DOMAIN_MIN).toFixed(1)} Z`;
+    const baseY=y(100).toFixed(1), endX=x(idx.length-1).toFixed(1), endY=y(idx[idx.length-1]).toFixed(1);
+    const card=document.createElement("div"); card.className="chart-card";
+    card.innerHTML=`
+      <div class="cc-head"><span class="cc-name">${s.name}</span><span class="cc-ret" style="color:${color}">${fmtPct(s.retPct)}</span></div>
+      <svg viewBox="0 0 ${W} ${H}">
+        <line x1="${PAD_L}" y1="${baseY}" x2="${W-PAD_R}" y2="${baseY}" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,2"/>
+        <path d="${areaPath}" fill="${bg}" opacity="0.7"/>
+        <path d="${linePath}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="${endX}" cy="${endY}" r="2.4" fill="${color}"/>
+        <text x="${PAD_L}" y="${H-3}" class="axis-lbl">06/04</text>
+        <text x="${W-PAD_R}" y="${H-3}" class="axis-lbl" text-anchor="end">09/17</text>
+      </svg>`;
+    chartGrid.appendChild(card);
+  });
+
+  document.getElementById("footnote").textContent =
+    "참고: 시가총액 9~10위는 제이알글로벌리츠(348950, 시총 2,333억원)와 신한서부티엔디리츠(404990, 시총 2,339억원)가 사실상 동률이다. 다만 제이알글로벌리츠는 조회 기간 내 거래량이 0건으로 시세 데이터가 없어(거래정지 추정) 이번 추이 분석에서는 제외하고 신한서부티엔디리츠를 10위로 반영했다.";
+
+  /* ---------- TAB 2: price log ---------- */
+  const HISTORY = JSON.parse(document.getElementById("price-history-data").textContent);
+  const sorted = [...HISTORY].sort((a,b)=> a.date < b.date ? 1 : -1);
+  const latest = sorted[0];
+
+  document.getElementById("subline").textContent =
+    `기준일 ${latest.date} · KIS 시세 데이터 · 주가 기록 누적 ${sorted.length}개 영업일`;
+
+  const dateSelect = document.getElementById("dateSelect");
+  sorted.forEach(day=>{
+    const opt=document.createElement("option"); opt.value=day.date; opt.textContent=day.date;
+    dateSelect.appendChild(opt);
+  });
+
+  function renderLogStats(day){
+    const st = day.stocks;
+    const up = st.filter(s=>s.change_rate>0).length, down = st.filter(s=>s.change_rate<0).length;
+    const totalCap = st.reduce((a,s)=>a+s.market_cap,0);
+    const best = st.reduce((a,s)=>s.change_rate>a.change_rate?s:a);
+    const worst = st.reduce((a,s)=>s.change_rate<a.change_rate?s:a);
+    const grid = document.getElementById("logStatGrid");
+    grid.innerHTML = `
+      <div class="stat"><div class="label">종목 수 · 상승/하락</div><div class="value">${st.length}개 · ${up}↑ ${down}↓</div></div>
+      <div class="stat"><div class="label">합산 시가총액</div><div class="value">${fmtNum(totalCap)}억원</div></div>
+      <div class="stat"><div class="label">최고 상승</div><div class="value" style="color:var(--up)">${best.name} ${fmtPct(best.change_rate)}</div></div>
+      <div class="stat"><div class="label">최고 하락</div><div class="value" style="color:var(--down)">${worst.name} ${fmtPct(worst.change_rate)}</div></div>`;
+  }
+  const INSIGHTS = (function(){
+    const el = document.getElementById("stock-insights-data");
+    return el ? JSON.parse(el.textContent) : null;
+  })();
+  const INSIGHT_CODES = INSIGHTS ? Object.keys(INSIGHTS.insights) : [];
+
+  function buildInsightRow(s){
+    const info = INSIGHTS.insights[s.code];
+    const tr = document.createElement("tr");
+    tr.className = "insight-row";
+    tr.innerHTML = `<td colspan="5"><div class="insight-box">
+        <div class="insight-tags">
+          <span class="itag">추세: ${info.trend}</span>
+          <span class="itag">단기 지지선 ${info.support}</span>
+          <span class="itag">단기 저항선 ${info.resistance}</span>
+          <span class="itag">52주 밴드 ${info.week52}</span>
+        </div>
+        <p class="insight-text">${info.summary} ${info.flow}</p>
+        <p class="insight-text" style="color:var(--ink-2)">${INSIGHTS.marketContext}</p>
+        <p class="insight-disclaimer">기준일 ${INSIGHTS.asOf} · 지지선/저항선은 최근 약 1개월 가격 범위 기준 추정치이며, 이 내용은 투자 판단을 위한 참고 자료일 뿐 투자 권유나 매수·매도 추천이 아닙니다.</p>
+      </div></td>`;
+    return tr;
+  }
+
+  function renderLogTable(day){
+    const tbody=document.getElementById("logTblBody"); tbody.innerHTML="";
+    [...day.stocks].sort((a,b)=>b.market_cap-a.market_cap).forEach(s=>{
+      const cls=s.change_rate>0?"up":(s.change_rate<0?"down":"flat");
+      const hasInsight = INSIGHTS && day.date === INSIGHTS.asOf && INSIGHT_CODES.includes(s.code);
+      const tr=document.createElement("tr");
+      if(hasInsight) tr.className="clickable";
+      tr.innerHTML=`<td>${s.code}</td><td class="name"><span class="nm">${s.name}</span></td><td>${fmtNum(s.price)}원</td><td><span class="pct ${cls}">${fmtPct(s.change_rate)}</span></td><td>${fmtNum(s.market_cap)}</td>`;
+      if(hasInsight){
+        tr.addEventListener("click", ()=>{
+          const next = tr.nextElementSibling;
+          if(next && next.classList.contains("insight-row")){ next.remove(); return; }
+          document.querySelectorAll("#logTblBody tr.insight-row").forEach(r=>r.remove());
+          tr.insertAdjacentElement("afterend", buildInsightRow(s));
+        });
+      }
+      tbody.appendChild(tr);
+    });
+  }
+  function showDate(dateStr){
+    const day = sorted.find(d=>d.date===dateStr) || latest;
+    renderLogStats(day); renderLogTable(day);
+  }
+  dateSelect.value = latest.date;
+  showDate(latest.date);
+  dateSelect.addEventListener("change", ()=>showDate(dateSelect.value));
+
+  function toCsv(rows){
+    return rows.map(r=>r.map(cell=>{const s=String(cell); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;}).join(",")).join("\r\n");
+  }
+  function download(filename, content){
+    const blob=new Blob(["﻿"+content],{type:"text/csv;charset=utf-8;"});
+    const url=URL.createObjectURL(blob); const a=document.createElement("a");
+    a.href=url; a.download=filename; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+  document.getElementById("downloadDayBtn").addEventListener("click", ()=>{
+    const day = sorted.find(d=>d.date===dateSelect.value) || latest;
+    const rows=[["날짜","코드","종목명","종가","등락률(%)","시가총액(억원)"]];
+    day.stocks.forEach(s=>rows.push([day.date,s.code,s.name,s.price,s.change_rate,s.market_cap]));
+    download(`상장리츠_주가_${day.date}.csv`, toCsv(rows));
+  });
+  document.getElementById("downloadAllBtn").addEventListener("click", ()=>{
+    const rows=[["날짜","코드","종목명","종가","등락률(%)","시가총액(억원)"]];
+    [...HISTORY].sort((a,b)=>a.date<b.date?-1:1).forEach(day=>{
+      day.stocks.forEach(s=>rows.push([day.date,s.code,s.name,s.price,s.change_rate,s.market_cap]));
+    });
+    download(`상장리츠_주가_전체기록.csv`, toCsv(rows));
+  });
+})();
+</script>
+
+</body></html>
