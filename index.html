@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>상장리츠 대시보드</title>
 <style>
   :root{
@@ -135,7 +135,7 @@
   <header class="top">
     <div class="eyebrow">Korea Listed REITs Dashboard</div>
     <h1>국내 상장리츠 대시보드</h1>
-    <div class="subline" id="subline">기준일 2026-09-17 · KIS 시세 데이터</div>
+    <div class="subline" id="subline">기준일 2026-09-22 · KIS 시세 데이터</div>
   </header>
 
   <nav class="tabbar">
@@ -149,7 +149,7 @@
 
     <section id="ranking">
       <h2>시가총액 순위 (Top 10)</h2>
-      <p class="section-note">국내 증시에 상장된 리츠(REITs) 중 시가총액 상위 10개. 등락률은 당일 기준, 수익률은 2026-06-04 종가 대비 2026-09-17 종가 기준.</p>
+      <p class="section-note">국내 증시에 상장된 리츠(REITs) 중 시가총액 상위 10개. 등락률은 당일 기준, 수익률은 2026-06-08 종가 대비 2026-09-22 종가 기준.</p>
       <div class="table-scroll">
         <table>
           <thead><tr><th>순위</th><th>종목명</th><th>현재가</th><th>당일등락</th><th>시가총액(억원)</th><th>3.5개월 수익률</th><th>추이</th></tr></thead>
@@ -159,7 +159,7 @@
     </section>
 
     <section id="trend">
-      <h2>종목별 주가 추이 (2026-06-04=100 지수화)</h2>
+      <h2>종목별 주가 추이 (2026-06-08=100 지수화)</h2>
       <p class="section-note">10개 종목 모두 동일한 축으로 비교. 점선은 기준일(100) 위치이며, 선 끝의 점은 최근 종가 위치를 나타낸다.</p>
       <div class="grid-charts" id="chartGrid"></div>
     </section>
@@ -170,19 +170,21 @@
         <div class="tg">
           <h3 class="up">상승 흐름</h3>
           <ul>
-            <li><b>한화리츠(+22.9%)</b>: 6월 초 저점(4,030원) 이후 꾸준히 우상향, 8월 중순 5,670원까지 상승한 뒤 박스권 유지.</li>
-            <li><b>KB스타리츠(+19.7%)</b>: 6월 저점(1,267원) 이후 완만히 우상향하다 최근 2주 기관 순매수와 함께 급등, 오늘 1,705원으로 신고가.</li>
-            <li><b>롯데리츠(+13.4%)</b>: 6~7월 조정 후 8월부터 상승 전환, 9월 들어 3,900원대 안착.</li>
-            <li><b>신한서부티엔디리츠(+14.6%)</b>: 6월 배당락 급등락 이후 변동성 크게 유지하며 완만한 우상향.</li>
+            <li><b>한화리츠(+32.51%)</b>: 6월 초 저점(4,030원) 이후 8월 중순 5,420원까지 오른 뒤 5,300원대 박스권에서 등락하며 오늘 5,340원(당일 -0.19%)으로 마감, 톱10 중 최고 수익률을 유지했습니다.</li>
+            <li><b>롯데리츠(+22.32%)</b>: 6월 초 저점(3,315원) 이후 꾸준히 우상향하며 오늘 4,055원(당일 +1.12%)으로 관측 기간 중 최고가를 다시 경신했습니다.</li>
+            <li><b>이지스밸류플러스리츠(+17.62%)</b>: 6월 초 저점(3,065원) 이후 9월 초 3,875원까지 상승, 이후 조정을 거쳐 오늘 3,605원(당일 +0.28%)으로 소폭 반등 마감했습니다.</li>
+            <li><b>신한서부티엔디리츠(+17.43%)</b>: 6월 중순 4,055원까지 급등한 이후 등락을 거듭하며 오늘도 3,840원(당일 +0.52%)에서 보합권 흐름을 이어갔습니다.</li>
+            <li><b>KB스타리츠(+15.94%)</b>: 최근 한 달 동안 1,500원대에서 1,670원대까지 강한 상승세를 보였으나, 오늘은 1,629원(당일 -2.46%)으로 조정받아 톱10 중 두 번째로 큰 낙폭을 기록했습니다.</li>
           </ul>
         </div>
         <div class="tg">
           <h3 class="down">조정 흐름</h3>
           <ul>
-            <li><b>ESR켄달스퀘어리츠(-15.5%)</b>: 톱10 중 유일한 두 자릿수 하락. 6월 고점(3,990원) 이후 8월 저점(2,985원)까지 완만한 하락세 지속.</li>
-            <li><b>SK리츠(+3.4%)</b>: 6월 급등(4,800→6,020원) 후 8월 고점(5,880원대) 대비 최근 -12% 조정, 변동폭만 크고 기간 수익률은 완만.</li>
-            <li><b>코람코라이프인프라리츠(+4.5%)·삼성FN리츠(+10.1%)</b>: 등락은 있었지만 대체로 박스권, 방향성은 완만한 상승.</li>
-            <li><b>이지스밸류플러스리츠(+7.7%)</b>: 9월 초 4,050원 고점 형성 후 차익실현 매물로 3,600원대로 되돌림.</li>
+            <li><b>ESR켄달스퀘어리츠(-10.00%)</b>: 톱10 중 유일한 마이너스 수익률 종목. 6월 중순 고점(3,680원) 이후 8월 하순 저점(3,065원)까지 밀린 뒤 완만히 반등해 오늘 3,150원(당일 +1.12%)으로 마감했습니다.</li>
+            <li><b>삼성FN리츠(+2.75%)</b>: 6월 중순 고점(5,520원) 근처에서 등락하다 최근 낙폭이 커지며 오늘 4,850원(당일 -3.00%)까지 밀려 톱10 중 최대 낙폭을 기록했습니다.</li>
+            <li><b>신한알파리츠(+5.92%)</b>: 6월 중순 저점(5,170원) 이후 완만히 회복해 오늘 5,550원(당일 +1.28%)으로 최근 고점을 경신했으나, 누적 수익률은 여전히 톱10 하위권에 머물러 있습니다.</li>
+            <li><b>코람코라이프인프라리츠(+8.17%)</b>: 8월 중순 고점(4,330원) 이후 조정이 이어지다 오늘 4,170원(당일 +1.96%)으로 반등하며 톱10 중 가장 높은 당일 상승률을 기록했습니다.</li>
+            <li><b>SK리츠(+11.67%)</b>: 6월 중순 고점(5,990원) 이후 완만한 하락 추세가 이어지며 상승폭이 크게 축소되었으나, 오늘은 5,360원(당일 +1.71%)으로 반등했습니다.</li>
           </ul>
         </div>
       </div>
@@ -215,7 +217,7 @@
 
   <footer>
     <p id="footnote"></p>
-    <p>데이터 출처: PlayMCP 한국주식정보 커넥터(KIS 연동) · 매 영업일 16:30 KST경 자동 갱신 · 단순 참고용이며 투자 판단의 근거로 사용할 수 없습니다.</p>
+    <p>데이터 출처: PlayMCP 한국주식정보 커넥터(KIS 연동) · 매 영업일 자동 갱신 · 단순 참고용이며 투자 판단의 근거로 사용할 수 없습니다.</p>
   </footer>
 </div>
 
@@ -247,6 +249,87 @@
       {"code":"481850","name":"신한글로벌액티브리츠","price":973,"change_rate":0.31,"market_cap":423},
       {"code":"145270","name":"케이탑리츠","price":788,"change_rate":-0.51,"market_cap":379},
       {"code":"357430","name":"마스턴프리미어리츠","price":922,"change_rate":-0.32,"market_cap":281}
+    ]
+  },
+  {
+    "date": "2026-09-18",
+    "stocks": [
+      {"code":"395400","name":"SK리츠","price":5160,"change_rate":-0.39,"market_cap":15533},
+      {"code":"330590","name":"롯데리츠","price":3985,"change_rate":0,"market_cap":11515},
+      {"code":"451800","name":"한화리츠","price":5290,"change_rate":-0.56,"market_cap":9501},
+      {"code":"365550","name":"ESR켄달스퀘어리츠","price":3095,"change_rate":0,"market_cap":7616},
+      {"code":"293940","name":"신한알파리츠","price":5530,"change_rate":1.28,"market_cap":6688},
+      {"code":"448730","name":"삼성FN리츠","price":5500,"change_rate":2.61,"market_cap":5008},
+      {"code":"357120","name":"코람코라이프인프라리츠","price":4045,"change_rate":-1.34,"market_cap":3937},
+      {"code":"417310","name":"코람코더원리츠","price":2375,"change_rate":0.21,"market_cap":960},
+      {"code":"334890","name":"이지스밸류플러스리츠","price":3555,"change_rate":-2.2,"market_cap":2469},
+      {"code":"404990","name":"신한서부티엔디리츠","price":3795,"change_rate":0,"market_cap":2339},
+      {"code":"348950","name":"제이알글로벌리츠","price":1182,"change_rate":0,"market_cap":2333},
+      {"code":"088260","name":"이리츠코크렙","price":3280,"change_rate":-0.3,"market_cap":2078},
+      {"code":"432320","name":"KB스타리츠","price":1730,"change_rate":1.7,"market_cap":2608},
+      {"code":"377190","name":"디앤디플랫폼리츠","price":2330,"change_rate":2.42,"market_cap":2060},
+      {"code":"400760","name":"NH올원리츠","price":2865,"change_rate":0.53,"market_cap":1574},
+      {"code":"350520","name":"이지스레지던스리츠","price":3355,"change_rate":0.3,"market_cap":1237},
+      {"code":"338100","name":"NH프라임리츠","price":3795,"change_rate":-0.13,"market_cap":708},
+      {"code":"396690","name":"미래에셋글로벌리츠","price":1420,"change_rate":0.57,"market_cap":562},
+      {"code":"357250","name":"미래에셋맵스리츠","price":1814,"change_rate":-0.11,"market_cap":453},
+      {"code":"481850","name":"신한글로벌액티브리츠","price":979,"change_rate":0.1,"market_cap":426},
+      {"code":"145270","name":"케이탑리츠","price":787,"change_rate":0.64,"market_cap":378},
+      {"code":"357430","name":"마스턴프리미어리츠","price":922,"change_rate":-0.22,"market_cap":281}
+    ]
+  },
+  {
+    "date": "2026-09-21",
+    "stocks": [
+      {"code":"395400","name":"SK리츠","price":5270,"change_rate":4.15,"market_cap":15863},
+      {"code":"330590","name":"롯데리츠","price":4010,"change_rate":0.25,"market_cap":11588},
+      {"code":"451800","name":"한화리츠","price":5350,"change_rate":2.29,"market_cap":9609},
+      {"code":"365550","name":"ESR켄달스퀘어리츠","price":3115,"change_rate":2.64,"market_cap":7665},
+      {"code":"293940","name":"신한알파리츠","price":5480,"change_rate":-1.26,"market_cap":6627},
+      {"code":"448730","name":"삼성FN리츠","price":5000,"change_rate":-6.37,"market_cap":4553},
+      {"code":"357120","name":"코람코라이프인프라리츠","price":4090,"change_rate":-0.73,"market_cap":3981},
+      {"code":"417310","name":"코람코더원리츠","price":2380,"change_rate":-0.21,"market_cap":962},
+      {"code":"334890","name":"이지스밸류플러스리츠","price":3595,"change_rate":0.14,"market_cap":2497},
+      {"code":"404990","name":"신한서부티엔디리츠","price":3820,"change_rate":0,"market_cap":2354},
+      {"code":"348950","name":"제이알글로벌리츠","price":1182,"change_rate":0,"market_cap":2333},
+      {"code":"088260","name":"이리츠코크렙","price":3290,"change_rate":-1.2,"market_cap":2084},
+      {"code":"432320","name":"KB스타리츠","price":1670,"change_rate":-5.17,"market_cap":2518},
+      {"code":"377190","name":"디앤디플랫폼리츠","price":2250,"change_rate":-4.26,"market_cap":1989},
+      {"code":"400760","name":"NH올원리츠","price":2825,"change_rate":-0.35,"market_cap":1551},
+      {"code":"350520","name":"이지스레지던스리츠","price":3380,"change_rate":0.15,"market_cap":1246},
+      {"code":"338100","name":"NH프라임리츠","price":3795,"change_rate":0,"market_cap":708},
+      {"code":"396690","name":"미래에셋글로벌리츠","price":1451,"change_rate":2.4,"market_cap":574},
+      {"code":"357250","name":"미래에셋맵스리츠","price":1860,"change_rate":1.92,"market_cap":465},
+      {"code":"481850","name":"신한글로벌액티브리츠","price":982,"change_rate":0.2,"market_cap":427},
+      {"code":"145270","name":"케이탑리츠","price":785,"change_rate":0.26,"market_cap":378},
+      {"code":"357430","name":"마스턴프리미어리츠","price":905,"change_rate":-0.66,"market_cap":276}
+    ]
+  },
+  {
+    "date": "2026-09-22",
+    "stocks": [
+      {"code":"395400","name":"SK리츠","price":5360,"change_rate":1.71,"market_cap":16135},
+      {"code":"330590","name":"롯데리츠","price":4055,"change_rate":1.12,"market_cap":11718},
+      {"code":"451800","name":"한화리츠","price":5340,"change_rate":-0.19,"market_cap":9591},
+      {"code":"365550","name":"ESR켄달스퀘어리츠","price":3150,"change_rate":1.12,"market_cap":7752},
+      {"code":"293940","name":"신한알파리츠","price":5550,"change_rate":1.28,"market_cap":6712},
+      {"code":"448730","name":"삼성FN리츠","price":4850,"change_rate":-3.00,"market_cap":4416},
+      {"code":"357120","name":"코람코라이프인프라리츠","price":4170,"change_rate":1.96,"market_cap":4059},
+      {"code":"417310","name":"코람코더원리츠","price":2382,"change_rate":0.08,"market_cap":962},
+      {"code":"334890","name":"이지스밸류플러스리츠","price":3605,"change_rate":0.28,"market_cap":2504},
+      {"code":"404990","name":"신한서부티엔디리츠","price":3840,"change_rate":0.52,"market_cap":2367},
+      {"code":"348950","name":"제이알글로벌리츠","price":1182,"change_rate":0,"market_cap":2333},
+      {"code":"088260","name":"이리츠코크렙","price":3270,"change_rate":-0.61,"market_cap":2071},
+      {"code":"432320","name":"KB스타리츠","price":1629,"change_rate":-2.46,"market_cap":2456},
+      {"code":"377190","name":"디앤디플랫폼리츠","price":2245,"change_rate":-0.22,"market_cap":1985},
+      {"code":"400760","name":"NH올원리츠","price":2780,"change_rate":-1.59,"market_cap":1527},
+      {"code":"350520","name":"이지스레지던스리츠","price":3350,"change_rate":-0.89,"market_cap":1235},
+      {"code":"338100","name":"NH프라임리츠","price":3780,"change_rate":-0.40,"market_cap":705},
+      {"code":"396690","name":"미래에셋글로벌리츠","price":1419,"change_rate":-2.21,"market_cap":562},
+      {"code":"357250","name":"미래에셋맵스리츠","price":1840,"change_rate":-1.08,"market_cap":460},
+      {"code":"481850","name":"신한글로벌액티브리츠","price":979,"change_rate":-0.31,"market_cap":426},
+      {"code":"145270","name":"케이탑리츠","price":796,"change_rate":1.40,"market_cap":383},
+      {"code":"357430","name":"마스턴프리미어리츠","price":893,"change_rate":-1.33,"market_cap":272}
     ]
   }
 ]
@@ -288,18 +371,18 @@
   });
 
   /* ---------- TAB 1: ranking report ---------- */
-  const DATE_LABELS = ["06/04","06/09","06/23","07/07","07/22","08/05","08/20","09/03","09/17"];
+  const DATE_LABELS = ["06/08","06/19","07/02","07/15","07/29","08/12","08/26","09/08","09/22"];
   const stocks = [
-    {name:"SK리츠", code:"395400", price:5160, dayPct:-0.96, cap:15533, series:[4990,4840,5630,5920,5600,5570,5650,5350,5160]},
-    {name:"롯데리츠", code:"330590", price:3965, dayPct:0.25, cap:11443, series:[3495,3455,3520,3675,3490,3620,3945,3860,3965]},
-    {name:"한화리츠", code:"451800", price:5290, dayPct:0.57, cap:9501, series:[4305,4125,4705,4950,4660,5130,5670,5130,5290]},
-    {name:"ESR켄달스퀘어리츠", code:"365550", price:3085, dayPct:-1.12, cap:7592, series:[3650,3500,3445,3450,3210,3210,3000,3120,3085]},
-    {name:"신한알파리츠", code:"293940", price:5460, dayPct:0.74, cap:6603, series:[4860,5230,5080,5240,5200,5220,5260,5390,5460]},
-    {name:"삼성FN리츠", code:"448730", price:5350, dayPct:0.38, cap:4871, series:[4860,4880,5180,5600,5510,5530,5440,5160,5350]},
-    {name:"코람코라이프인프라리츠", code:"357120", price:4087, dayPct:-0.80, cap:3976, series:[3910,3925,4000,4235,4015,4240,4355,4140,4087]},
-    {name:"KB스타리츠", code:"432320", price:1705, dayPct:3.27, cap:2570, series:[1424,1477,1298,1459,1478,1367,1428,1469,1705]},
-    {name:"이지스밸류플러스리츠", code:"334890", price:3630, dayPct:-0.27, cap:2514, series:[3370,3110,3290,3515,3425,3380,3685,3985,3630]},
-    {name:"신한서부티엔디리츠", code:"404990", price:3795, dayPct:1.34, cap:2339, series:[3310,3735,3815,3730,3700,4115,4000,3850,3795]},
+    {name:"SK리츠", code:"395400", price:5360, dayPct:1.71, cap:16135, series:[4800,5990,5650,5510,5450,5700,5660,5270,5360]},
+    {name:"롯데리츠", code:"330590", price:4055, dayPct:1.12, cap:11718, series:[3315,3695,3575,3450,3585,3830,3950,3935,4055]},
+    {name:"한화리츠", code:"451800", price:5340, dayPct:-0.19, cap:9591, series:[4030,4890,4715,4655,4850,5370,5420,5320,5340]},
+    {name:"ESR켄달스퀘어리츠", code:"365550", price:3150, dayPct:1.12, cap:7752, series:[3500,3680,3360,3190,3295,3270,3065,3140,3150]},
+    {name:"신한알파리츠", code:"293940", price:5550, dayPct:1.28, cap:6712, series:[5240,5290,5220,5170,5180,5280,5480,5390,5550]},
+    {name:"삼성FN리츠", code:"448730", price:4850, dayPct:-3.00, cap:4416, series:[4720,5430,5430,5410,5380,5400,5520,5290,4850]},
+    {name:"코람코라이프인프라리츠", code:"357120", price:4170, dayPct:1.96, cap:4059, series:[3855,4095,4240,4005,4040,4330,4305,4070,4170]},
+    {name:"이지스밸류플러스리츠", code:"334890", price:3605, dayPct:0.28, cap:2504, series:[3065,3455,3475,3435,3540,3730,3875,3565,3605]},
+    {name:"KB스타리츠", code:"432320", price:1629, dayPct:-2.46, cap:2456, series:[1405,1331,1336,1444,1353,1456,1429,1512,1629]},
+    {name:"신한서부티엔디리츠", code:"404990", price:3840, dayPct:0.52, cap:2367, series:[3270,4055,3785,3580,3800,4100,3965,3840,3840]},
   ];
   stocks.forEach((s,i)=>{
     s.rank=i+1;
@@ -314,7 +397,7 @@
   const statGrid = document.getElementById("statGrid");
   [
     {label:"TOP 10 합산 시가총액", value:(totalCap/10000).toFixed(2)+"조원", sub:fmtNum(totalCap)+"억원"},
-    {label:"평균 수익률 (06/04→09/17)", value:fmtPct(avgRet), sub:"10종목 단순평균, 기간 약 3.5개월", cls:avgRet>=0?"up":"down"},
+    {label:"평균 수익률 (06/08→09/22)", value:fmtPct(avgRet), sub:"10종목 단순평균, 기간 약 3.5개월", cls:avgRet>=0?"up":"down"},
     {label:"최고 수익률", value:fmtPct(best.retPct), sub:best.name+" · 시총 "+fmtNum(best.cap)+"억원", cls:"up"},
     {label:"최저 수익률", value:fmtPct(worst.retPct), sub:worst.name+" · 시총 "+fmtNum(worst.cap)+"억원", cls:"down"},
   ].forEach(st=>{
@@ -371,14 +454,14 @@
         <path d="${areaPath}" fill="${bg}" opacity="0.7"/>
         <path d="${linePath}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         <circle cx="${endX}" cy="${endY}" r="2.4" fill="${color}"/>
-        <text x="${PAD_L}" y="${H-3}" class="axis-lbl">06/04</text>
-        <text x="${W-PAD_R}" y="${H-3}" class="axis-lbl" text-anchor="end">09/17</text>
+        <text x="${PAD_L}" y="${H-3}" class="axis-lbl">06/08</text>
+        <text x="${W-PAD_R}" y="${H-3}" class="axis-lbl" text-anchor="end">09/22</text>
       </svg>`;
     chartGrid.appendChild(card);
   });
 
   document.getElementById("footnote").textContent =
-    "참고: 시가총액 9~10위는 제이알글로벌리츠(348950, 시총 2,333억원)와 신한서부티엔디리츠(404990, 시총 2,339억원)가 사실상 동률이다. 다만 제이알글로벌리츠는 조회 기간 내 거래량이 0건으로 시세 데이터가 없어(거래정지 추정) 이번 추이 분석에서는 제외하고 신한서부티엔디리츠를 10위로 반영했다.";
+    "참고: 시가총액 10위는 신한서부티엔디리츠(404990, 시총 2,367억원)이며, 11위인 제이알글로벌리츠(348950, 시총 2,333억원)와의 격차는 약 34억원으로 근소하다. 다만 제이알글로벌리츠는 관측 기간 내 거래량이 지속적으로 0건으로 시세 데이터가 없어(거래정지 추정) 이번 순위 및 추이 분석에서는 제외했다.";
 
   /* ---------- TAB 2: price log ---------- */
   const HISTORY = JSON.parse(document.getElementById("price-history-data").textContent);
@@ -482,4 +565,4 @@
 })();
 </script>
 
-</body></html><!-- push-access-test 2026-09-22T06:23:23Z -->
+</body></html>
